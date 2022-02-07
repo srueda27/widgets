@@ -6,12 +6,13 @@ const Search = () => {
   //the second argument controls when is called the useEffect hook
   /* 
   no argument: first time only
-  []: when the component is rerendered
-  [var]: when the component is rerendered&the var has changed
+  []: when the component is rendered (including first time)
+  [var]: when the component is rendered&the var has changed 
+          (both needs to happened, in case is rerendered but the var has no changed it´s not executed)
    */
   React.useEffect(() => {
     
-  },);
+  });
 
   return (
     <div>
