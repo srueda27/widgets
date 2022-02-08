@@ -1,10 +1,8 @@
 import React from "react";
 import axios from "axios";
-import react from "react";
 
 const Search = () => {
   const [term, setTerm] = React.useState('');
-  const [debouncedTerm, setDebouncedTerm] = React.useState(term);
   const [results, setResults] = React.useState([]);
 
   //the second argument controls when is called the useEffect hook
@@ -17,20 +15,7 @@ const Search = () => {
    */
 
   React.useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setDebouncedTerm(term)
-    }, 1000);
-
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [term]);
-
-  React.useEffect(() => {
-    if (debouncedTerm.trim() === '') {
-      setResults([])
-      return
-    }
+    if (term.trim() === '') setResults([])
 
     const search = async () => {
       const { data } = await axios.get('https://en.wikipedia.org/w/api.php', {
@@ -39,15 +24,21 @@ const Search = () => {
           list: 'search',
           origin: '*',
           format: 'json',
-          srsearch: debouncedTerm,
+          srsearch: term,
         }
       });
 
       setResults(data.query.search);
     };
 
-    search();
-  }, [debouncedTerm]);
+    const timeoutId = setTimeout(() => {
+      if (term) search()
+    }, 1000);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [term]);
 
   const renderedResult = results.map(result => {
     return (
