@@ -18,11 +18,11 @@ const Convert = ({ language, text }) => {
   },[text]);
 
   React.useEffect(() => {
-    if (text.trim() == '') setTranslated('')
-  })
+    if (text.trim() === '') setTranslated('')
+  }, [text])
 
   React.useEffect(() => {
-    if (debouncedText.trim() == '') return
+    if (debouncedText.trim() === '') return
 
     const doTranslate = async () => {
       const { data } = await axios.post('https://translation.googleapis.com/language/translate/v2', {}, {
