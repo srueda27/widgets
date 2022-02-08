@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import Accordion from "./Accordion";
 import Dropdown from "./DropDown";
+import Route from "./Route";
 import Search from "./Search";
 import Translate from "./Translate";
 
@@ -40,15 +41,23 @@ export default () => {
 
   return (
     <div>
-      {/* <Accordion items={items} /> */}
-      {/* <Search /> */}
-      {/* <Dropdown
-        text="Select a Color"
-        options={options}
-        selected={selected}
-        onSelectedChange={setSelected}
-      /> */}
-      <Translate />
+      <Route path='/'>
+        <Accordion items={items} />
+      </Route>
+      <Route path='/list'>
+        <Search />
+      </Route>
+      <Route path='/dropdown'>
+        <Dropdown
+          text="Select a Color"
+          options={options}
+          selected={selected}
+          onSelectedChange={setSelected}
+        />
+      </Route>
+      <Route path='/translate'>
+        <Translate />
+      </Route>
     </div>
   );
 };
