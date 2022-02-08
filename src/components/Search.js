@@ -15,6 +15,8 @@ const Search = () => {
    */
 
   React.useEffect(() => {
+    if (term.trim() === '') setResults([])
+
     const search = async () => {
       const { data } = await axios.get('https://en.wikipedia.org/w/api.php', {
         params: {
