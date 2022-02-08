@@ -1,12 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const Dropdown = ({ options, selected, onSelectedChange }) => {
   const [open, setOpen] = useState(false);
+  const ref = useRef();
 
   useEffect(() => {
-    document.body.addEventListener('click', () => {
+    const onBodyClick = (event) => {
+      //if the click event is inside our ref (parent div in this case) then don't do nothing
+      //contains works for every dom element, checks if an element is inside the element
+      if (ref.current.contains(event.target)) {
+        return
+      }
+
       setOpen(false);
-    }, { capture: true });
+    }
+
+    document.body.addEventListener('click', onBodyClick, { capture: true });
+
+    return () => {
+      document.body.removeEventListener('click', onBodyClick, { capture: true })
+    }
   }, []);
 
   const renderedOptions = options.map(option => {
@@ -25,7 +38,7 @@ const Dropdown = ({ options, selected, onSelectedChange }) => {
   });
 
   return (
-    <div className="ui form">
+    <div ref={ref} className="ui form">
       <div className="field">
         <label className="label">Select Color</label>
         <div
